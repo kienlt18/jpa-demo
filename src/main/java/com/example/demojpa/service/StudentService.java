@@ -53,6 +53,7 @@ public class StudentService {
 
     public ResponseEntity<String> updateStudent(StudentDTO studentDTO){
         Optional<Student> optionalStudent = studentRepository.findById(studentDTO.getId());
+        // check if student exists
         if(!optionalStudent.isPresent()){
             return new ResponseEntity<>("Student not found!", HttpStatus.NOT_FOUND);
         }
@@ -64,6 +65,7 @@ public class StudentService {
 
     public ResponseEntity<String> deleteStudent(Long id){
         Optional<Student> optionalStudent = studentRepository.findById(id);
+        // check if student exists
         if(!optionalStudent.isPresent()){
             return new ResponseEntity<>("Student not found!", HttpStatus.NOT_FOUND);
         }

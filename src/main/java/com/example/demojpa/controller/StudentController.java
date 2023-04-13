@@ -25,9 +25,24 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAll());
     }
 
+    @GetMapping("/find-by-name")
+    public ResponseEntity<List<StudentDTO>> findAllByName(@RequestParam(name = "name") String name){
+        return studentService.findAllByName(name);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDTO> getById(@PathVariable(name = "id") Long id){
+        return studentService.findById(id);
+    }
+
     @GetMapping("/find-by-address")
     public ResponseEntity<Student> findByAddress(@RequestParam(name = "address") String address){
         return ResponseEntity.ok(studentService.findByAddress(address));
+    }
+
+    @GetMapping("/find-by-age")
+    public ResponseEntity<List<StudentDTO>> findByAge(@RequestParam(name = "age") int age){
+        return studentService.findByAge(age);
     }
 
     @PostMapping("/save")

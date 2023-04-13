@@ -40,8 +40,51 @@ public class StudentService {
         return Collections.emptyList();
     }
 
+    // Test custom query @Query
+    public ResponseEntity<List<StudentDTO>> findAllByName(String name){
+        System.out.println(name);
+        List<Student> students = studentRepository.findAllByName(name);
+        System.out.println(students.size());
+        if(!students.isEmpty()){
+            List<StudentDTO> studentDTOS = new ArrayList<>();
+            for(Student student: students){
+                StudentDTO studentDTO = new StudentDTO();
+                BeanUtils.copyProperties(student,studentDTO);
+                studentDTOS.add(studentDTO);
+            }
+            return ResponseEntity.ok(studentDTOS);
+        }
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    public ResponseEntity<StudentDTO> findById(Long id){
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        // check if student exists
+        if(!optionalStudent.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Student student = optionalStudent.get();
+        StudentDTO studentDTO = new StudentDTO();
+        BeanUtils.copyProperties(student,studentDTO);
+        return ResponseEntity.ok(studentDTO);
+    }
+
     public Student findByAddress(String address){
         return studentRepository.findByAddress(address);
+    }
+
+    public ResponseEntity<List<StudentDTO>> findByAge(int age){
+        List<Student> students = studentRepository.findByAge(age);
+        if(!students.isEmpty()){
+            List<StudentDTO> studentDTOS = new ArrayList<>();
+            for(Student student: students){
+                StudentDTO studentDTO = new StudentDTO();
+                BeanUtils.copyProperties(student,studentDTO);
+                studentDTOS.add(studentDTO);
+            }
+            return ResponseEntity.ok(studentDTOS);
+        }
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     public ResponseEntity<String> saveStudent(StudentDTO studentDTO){

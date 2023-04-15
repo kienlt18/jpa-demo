@@ -87,6 +87,18 @@ public class StudentService {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
+    // Native query
+    public ResponseEntity<StudentDTO> findStudentUsingNative(Long id){
+        Optional<Student> optionalStudent = studentRepository.findStudentById(id);
+        if(!optionalStudent.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Student student = optionalStudent.get();
+        StudentDTO studentDTO = new StudentDTO();
+        BeanUtils.copyProperties(student,studentDTO);
+        return ResponseEntity.ok(studentDTO);
+    }
+
     public ResponseEntity<String> saveStudent(StudentDTO studentDTO){
         Student student = new Student();
         BeanUtils.copyProperties(studentDTO,student);

@@ -35,6 +35,11 @@ public class StudentController {
         return studentService.findById(id);
     }
 
+    @GetMapping("/native/{id}")
+    public ResponseEntity<StudentDTO> getByIdNative(@PathVariable(name = "id") Long id){
+        return studentService.findStudentUsingNative(id);
+    }
+
     @GetMapping("/find-by-address")
     public ResponseEntity<Student> findByAddress(@RequestParam(name = "address") String address){
         return ResponseEntity.ok(studentService.findByAddress(address));

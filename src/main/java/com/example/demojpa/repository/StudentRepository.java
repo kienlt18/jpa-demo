@@ -30,6 +30,12 @@ public interface StudentRepository
 
     StudentView findByEmail(String email);
 
+    /**
+     * JPA doesn't provide automatic mapping between DTO and entity
+     * Use @NamedNativeQuery with an @SqlResultSetMapping
+     * @param phone
+     * @return StudentDTO
+     */
     @Query(nativeQuery = true)
     StudentDTO findByPhone(String phone);
 }

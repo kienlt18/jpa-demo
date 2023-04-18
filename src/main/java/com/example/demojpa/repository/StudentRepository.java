@@ -1,7 +1,9 @@
 package com.example.demojpa.repository;
 
 import com.example.demojpa.entity.Student;
+import com.example.demojpa.projection.StudentView;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository
+        extends JpaRepository<Student, Long>, JpaSpecificationExecutor<Student> {
 
     Student findByAddress(String address);
 
@@ -24,4 +27,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "Select * from student where student.id = :id", nativeQuery = true)
     Optional<Student> findStudentById(@Param("id") Long id);
 
+    StudentView findByEmail(String email);
 }

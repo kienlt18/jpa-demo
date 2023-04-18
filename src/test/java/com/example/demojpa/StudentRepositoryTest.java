@@ -71,4 +71,14 @@ public class StudentRepositoryTest {
         studentRepository.deleteById(1L);
         assertEquals(Optional.empty(),studentRepository.findById(1L));
     }
+
+    @Test
+    public void testProjection(){
+        StudentView studentView = studentRepository.findByEmail("namphuquoc@gmail.com");
+        System.out.println(studentView.getAgeAndEmail());
+        assertEquals("Nam",studentView.getName());
+        assertEquals("3454346745",studentView.getPhone());
+        assertEquals("Age: 28, Email: namphuquoc@gmail.com",studentView.getAgeAndEmail());
+    }
+
 }

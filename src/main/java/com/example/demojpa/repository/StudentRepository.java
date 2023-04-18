@@ -1,5 +1,6 @@
 package com.example.demojpa.repository;
 
+import com.example.demojpa.controller.dto.StudentDTO;
 import com.example.demojpa.entity.Student;
 import com.example.demojpa.projection.StudentView;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,7 @@ public interface StudentRepository
     Optional<Student> findStudentById(@Param("id") Long id);
 
     StudentView findByEmail(String email);
+
+    @Query(nativeQuery = true)
+    StudentDTO findByPhone(String phone);
 }

@@ -1,5 +1,6 @@
 package com.example.demojpa;
 
+import com.example.demojpa.controller.dto.StudentDTO;
 import com.example.demojpa.entity.Student;
 import com.example.demojpa.projection.StudentView;
 import com.example.demojpa.repository.StudentRepository;
@@ -81,4 +82,14 @@ public class StudentRepositoryTest {
         assertEquals("Age: 28, Email: namphuquoc@gmail.com",studentView.getAgeAndEmail());
     }
 
+    @Test
+    public void testClassBasedProjection(){
+        StudentDTO studentDTO = studentRepository.findByPhone("023435405");
+        assertEquals(1,studentDTO.getId());
+        assertEquals("Edward",studentDTO.getName());
+        assertEquals(18,studentDTO.getAge());
+        assertEquals("London",studentDTO.getAddress());
+        assertEquals("023435405",studentDTO.getPhone());
+        assertEquals("edw@gmail.com",studentDTO.getEmail());
+    }
 }

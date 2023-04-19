@@ -50,6 +50,11 @@ public class StudentController {
         return studentService.findByAge(age);
     }
 
+    @GetMapping("/find-by-phone")
+    public ResponseEntity<StudentDTO> findByPhone(@RequestParam(name = "phone") String phone){
+        return studentService.findStudentByPhone(phone);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<String> saveStudent(@RequestBody StudentDTO studentDTO){
         return studentService.saveStudent(studentDTO);

@@ -2,9 +2,15 @@ package com.example.demojpa.service;
 
 import com.example.demojpa.controller.dto.StudentDTO;
 import com.example.demojpa.entity.Student;
+import com.example.demojpa.entity.Student_;
+import com.example.demojpa.entity.specification.StudentSpecification;
 import com.example.demojpa.repository.StudentRepository;
+import com.example.demojpa.utils.PageUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -127,4 +133,11 @@ public class StudentService {
         studentRepository.deleteById(id);
         return ResponseEntity.ok("Delete successful!");
     }
+
+    // Class-based projection
+    public ResponseEntity<StudentDTO> findStudentByPhone(String phone){
+        StudentDTO studentDTO = studentRepository.findByPhone(phone);
+        return ResponseEntity.ok(studentDTO);
+    }
+
 }

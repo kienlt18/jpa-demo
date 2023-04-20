@@ -55,6 +55,14 @@ public class StudentController {
         return studentService.findStudentByPhone(phone);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<StudentDTO>> filterStudent(@RequestParam(name = "keyword") String keyword,
+                                                          @RequestParam(name = "sortField", required = false) String sortField,
+                                                          @RequestParam(name = "offset") Integer offset,
+                                                          @RequestParam(name = "limit") Integer limit){
+        return studentService.filter(keyword, sortField, offset, limit);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<String> saveStudent(@RequestBody StudentDTO studentDTO){
         return studentService.saveStudent(studentDTO);

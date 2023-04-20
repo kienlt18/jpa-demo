@@ -2,12 +2,15 @@ package com.example.demojpa;
 
 import com.example.demojpa.controller.dto.StudentDTO;
 import com.example.demojpa.entity.Student;
+import com.example.demojpa.entity.Student_;
+import com.example.demojpa.entity.specification.StudentSpecification;
 import com.example.demojpa.projection.StudentView;
 import com.example.demojpa.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,5 +94,20 @@ public class StudentRepositoryTest {
         assertEquals("London",studentDTO.getAddress());
         assertEquals("023435405",studentDTO.getPhone());
         assertEquals("edw@gmail.com",studentDTO.getEmail());
+    }
+
+    @Test
+    public void testSpecification(){
+        Specification<Student> studentSpecification = getStudentSpecification("oc");
+        List<Student> students = studentRepository.findAll(studentSpecification);
+        System.out.println(students.get(0));
+        assertEquals(1,students.size());
+    }
+
+    private Specification<Student> getStudentSpecification(String keyword){
+        return Specification.where(
+                StudentSpecification.likeKeySearch(keyword, Student_.NAME)
+                        .or(StudentSpecification.likeKeySearch(keyword, Student_.EMAIL))
+        );
     }
 }

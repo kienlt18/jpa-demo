@@ -140,4 +140,26 @@ public class StudentService {
         return ResponseEntity.ok(studentDTO);
     }
 
+    public ResponseEntity<List<StudentDTO>> filter(String keyword, String sortField, Integer offset, Integer limit){
+        Specification<Student> studentSpecification = getStudentSpecification(keyword);
+        PageRequest pageRequest = PageUtil.getPageRequest(sortField,offset,limit);
+        Page<Student> students = studentRepository.findAll(studentSpecification, pageRequest);
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        for(Student student: students.getContent()){
+            StudentDTO studentDTO = new StudentDTO();
+            BeanUtils.copyProperties(student,studentDTO);
+            studentDTOS.add(studentDTO);
+        }
+        return ResponseEntity.ok(studentDTOS);
+    }
+
+    private Specification<Student> getStudentSpecification(String keyword){
+        return Specification.where(
+                StudentSpecification.likeKeySearch(keyword, Student_.NAME)
+                        .or(StudentSpecification.likeKeySearch(keyword, Student_.EMAIL))
+                        .or(StudentSpecification.likeKeySearch(keyword, Student_.ADDRESS))
+                        .or(StudentSpecification.likeKeySearch(keyword, Student_.PHONE))
+        );
+    }
+
 }
